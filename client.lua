@@ -1,4 +1,4 @@
-local maxDistance = 30.0
+local maxDistance = 50.0
 local edgePointRadius = 0.1
 local coordRadius = 0.08
 local coordCount = 1
