@@ -14,6 +14,8 @@ This tool is very simple to use. First download this repository and unzip it int
 
 When you start a new coord-line, you will see a green sphere where you are looking in game. This represents your "startPoint". You can press E to set it. The green sphere will now stay in place and a red sphere will appear, representing the "endPoint", and a blue line will connect the two. This line is the "coord-line" or line upon which the coordinates will be placed. You can press E again to set your endPoint.
 
-Now a purple sphere will appear in the center of the line. This is a coordinate, as the default number of coordinates on a coord-line is 1. To change this number, just use your scroll wheel. If you need to move your startPoint or endPoint, you can just look at them and use the arrow keys to move. The one your looking closest to will be the one that moves (NOTE: This has a range of 30m). You can also hold ctrl down while using the arrow keys to move the point slower.
+Now a purple sphere will appear in the center of the line. This is a coordinate, as the default number of coordinates on a coord-line is 1. To change this number, just use your scroll wheel.
+
+If you need to move your startPoint or endPoint, you can do that using the arrow keys to move the point left, right, forward, or back. R moves the point up and F moves it down. G will try and place the point on the ground. To select which point you are moving, you use the numbers 1 (startPoint), 2 (endPoint), and 3 (both). You can also hold ctrl down while moving the point to go slower.
 
 And that's it! Once you are satisfied with your coordline, just use `/coordline save`, fill in a name, and check out the `coordlines.txt` file in the coord-line folder.
