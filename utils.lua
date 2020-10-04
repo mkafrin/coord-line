@@ -1,3 +1,4 @@
+blockinput = false
 local pi, sin, cos, abs, rad = math.pi, math.sin, math.cos, math.abs, math.rad
 local function RotationToDirection(rotation)
   local adjustedRotation =
@@ -48,6 +49,7 @@ end
 
 -- GetUserInput function inspired by vMenu (https://github.com/TomGrobbe/vMenu/blob/master/vMenu/CommonFunctions.cs)
 function GetUserInput(windowTitle, defaultText, maxInputLength)
+  blockinput = true
   -- Create the window title string.
   local resourceName = string.upper(GetCurrentResourceName())
   local textEntry = resourceName .. "_WINDOW_TITLE"
@@ -63,10 +65,13 @@ function GetUserInput(windowTitle, defaultText, maxInputLength)
   while true do
     local keyboardStatus = UpdateOnscreenKeyboard();
     if keyboardStatus == 3 then -- not displaying input field anymore somehow
+      blockinput = false
       return nil
     elseif keyboardStatus == 2 then -- cancelled
+      blockinput = false
       return nil
     elseif keyboardStatus == 1 then -- finished editing
+      blockinput = false
       return GetOnscreenKeyboardResult()
     else
       Wait(0)
@@ -79,6 +84,7 @@ function DrawSphere(pos, radius, r, g, b, a)
 end
 
 function handleHeightInput(coord)
+  if blockinput then return coord end
   delta = 0.05
   DisableControlAction(0, 36, true)
   if IsDisabledControlPressed(0, 36) then -- ctrl held down
@@ -105,6 +111,7 @@ function handleHeightInput(coord)
 end
 
 function handleArrowInput(center, heading)
+  if blockinput then return center end
   delta = 0.05
   DisableControlAction(0, 36, true)
   if IsDisabledControlPressed(0, 36) then -- ctrl held down
@@ -131,6 +138,7 @@ function handleArrowInput(center, heading)
 end
 
 function handleNumberInput(num)
+  if blockinput then return num end
   local one, two, three = 157, 158, 160
   DisableControlAction(0, one, true)
   DisableControlAction(0, two, true)
