@@ -3,6 +3,7 @@ local edgePointRadius = 0.1
 local coordRadius = 0.08
 local coordCount = 1
 local startPoint, endPoint
+local pointMoveSelection = 1
 
 local creationEnabled = false
 RegisterCommand("coordline", function(src, args)
@@ -43,6 +44,7 @@ function startCreation(last)
   if not last then
     coordCount, startPoint, endPoint = 1, nil, nil
   end
+  pointMoveSelection = 1
   Citizen.CreateThread(function()
     while creationEnabled do
       if not startPoint or not endPoint then
@@ -80,14 +82,12 @@ function handleCoords()
 
   -- Find closest point the player is looking at between startPoint and endPoint
   -- and handle arrow input for moving that point
-  local hit, pos, _, _ = RayCastGamePlayCamera(maxDistance)
-  if not hit then return end
-  local distToStartPoint = #(pos - startPoint)
-  local distToEndPoint = #(pos - endPoint)
+  pointMoveSelection = handleNumberInput(pointMoveSelection)
   local rot = GetGameplayCamRot(2)
-  if distToStartPoint < distToEndPoint then
+  if pointMoveSelection == 1 or pointMoveSelection == 3 then
     startPoint = handleArrowInput(startPoint, rot.z)
-  else
+  end
+  if pointMoveSelection == 2 or pointMoveSelection == 3 then
     endPoint = handleArrowInput(endPoint, rot.z)
   end
 end

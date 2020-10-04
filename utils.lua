@@ -103,3 +103,20 @@ function handleArrowInput(center, heading)
   end
   return center
 end
+
+function handleNumberInput(num)
+  local one, two, three = 157, 158, 160
+  DisableControlAction(0, one, true)
+  DisableControlAction(0, two, true)
+  DisableControlAction(0, three, true)
+
+  if IsDisabledControlJustPressed(0, one) then
+    return 1
+  elseif IsDisabledControlJustPressed(0, two) then
+    return 2
+  elseif IsDisabledControlJustPressed(0, three) then
+    return 3
+  else
+    return num
+  end
+end
