@@ -86,15 +86,16 @@ function handleCoords()
   local rot = GetGameplayCamRot(2)
   if pointMoveSelection == 1 or pointMoveSelection == 3 then
     startPoint = handleArrowInput(startPoint, rot.z)
+    startPoint = handleHeightInput(startPoint)
   end
   if pointMoveSelection == 2 or pointMoveSelection == 3 then
     endPoint = handleArrowInput(endPoint, rot.z)
+    endPoint = handleHeightInput(endPoint)
   end
 end
 
 function handlePoints()
   local hit, pos, _, _ = RayCastGamePlayCamera(maxDistance)
-  pos = vector3(pos.x, pos.y, pos.z + 0.1)
   if hit then
     drawPoints(pos)
     if startPoint and not endPoint then

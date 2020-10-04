@@ -78,6 +78,32 @@ function DrawSphere(pos, radius, r, g, b, a)
   DrawMarker(28, pos.x, pos.y, pos.z, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, radius, radius, radius, r, g, b, a, false, false, 2, nil, nil, false)
 end
 
+function handleHeightInput(coord)
+  delta = 0.05
+  DisableControlAction(0, 36, true)
+  if IsDisabledControlPressed(0, 36) then -- ctrl held down
+    delta = 0.01
+  end
+  DisableControlAction(0, 23, true)
+  DisableControlAction(0, 140, true)
+  DisableControlAction(0, 47, true)
+  if IsDisabledControlPressed(0, 23) then -- F
+    return vector3(coord.x, coord.y, coord.z - delta)
+  elseif IsDisabledControlPressed(0, 140) then -- R
+    return vector3(coord.x, coord.y, coord.z + delta)
+  elseif IsDisabledControlJustPressed(0, 47) then -- G
+    local success, groundZ = GetGroundZFor_3dCoord(coord.x, coord.y, coord.z + 0.1, 0)
+    if not success then
+      print("Coord-line: Point is below the ground, raise above the ground and try pressing G again!")
+    else
+      return vector3(coord.x, coord.y, groundZ)
+    end
+    return coord
+  else
+    return coord
+  end
+end
+
 function handleArrowInput(center, heading)
   delta = 0.05
   DisableControlAction(0, 36, true)
