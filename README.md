@@ -18,4 +18,6 @@ Now a purple sphere will appear in the center of the line. This is a coordinate,
 
 If you need to move your startPoint or endPoint, you can do that using the arrow keys to move the point left, right, forward, or back. R moves the point up and F moves it down. G will try and place the point on the ground. To select which point you are moving, you use the numbers 1 (startPoint), 2 (endPoint), and 3 (both). You can also hold ctrl down while moving the point to go slower.
 
+The heading of the coord-line will be represented by an arrow over each coord. To change the heading, use shift + scroll wheel. You can also use ctrl here to slow the rotation down.
+
 And that's it! Once you are satisfied with your coordline, just use `/coordline save`, fill in a name, and check out the `coordlines.txt` file in the coord-line folder.
