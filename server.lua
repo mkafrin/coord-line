@@ -1,6 +1,5 @@
 function round(num, numDecimalPlaces)
-  local mult = 10^(numDecimalPlaces or 0)
-  return math.floor(num * mult + 0.5) / mult
+  return tonumber(string.format("%.".. numDecimalPlaces .. "f", num))
 end
 
 function roundVec(vec, numDecimalPlaces)
@@ -21,12 +20,12 @@ end)
 
 function parseCoordline(coordline)
   local out = printoutHeader(coordline.name)
-  out = out .. "startPoint = " .. coordline.startPoint .. "\n"
-  out = out .. "endPoint = " .. coordline.endPoint  .. "\n"
+  out = out .. "startPoint = " .. roundVec(coordline.startPoint, 3) .. "\n"
+  out = out .. "endPoint = " .. roundVec(coordline.endPoint, 3)  .. "\n"
   local coords = coordline.coords
   out = out .. "coords = {" .. "\n"
   for i=1, #coords do
-    out = out .. "  " .. roundVec(coords[i], 2) .. "," .. "\n"
+    out = out .. "  " .. roundVec(coords[i], 3) .. "," .. "\n"
   end
   out = out .. "}" .. "\n\n"
   return out
