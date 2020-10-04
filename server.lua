@@ -19,9 +19,14 @@ AddEventHandler("coord-line:save", function(coordline)
 end)
 
 function parseCoordline(coordline)
+  local fwdVectorHeading = math.rad(coordline.heading - 270.0)
+  local fwdVector = vector3(math.cos(fwdVectorHeading), math.sin(fwdVectorHeading), 0.0)
+
   local out = printoutHeader(coordline.name)
   out = out .. "startPoint = " .. roundVec(coordline.startPoint, 3) .. "\n"
   out = out .. "endPoint = " .. roundVec(coordline.endPoint, 3)  .. "\n"
+  out = out .. "fwdVector = " .. roundVec(fwdVector, 3) .. "\n"
+  out = out .. "heading = " .. coordline.heading + 0.0 .. "\n"
   local coords = coordline.coords
   out = out .. "coords = {" .. "\n"
   for i=1, #coords do

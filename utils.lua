@@ -83,6 +83,10 @@ function DrawSphere(pos, radius, r, g, b, a)
   DrawMarker(28, pos.x, pos.y, pos.z, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, radius, radius, radius, r, g, b, a, false, false, 2, nil, nil, false)
 end
 
+function DrawArrow(pos, radius, heading, r, g, b, a)
+  DrawMarker(2, pos.x, pos.y, pos.z, 0.0, 0.0, 0.0, heading - 90.0, -90.0, 90.0, radius, radius, radius, r, g, b, a, false, false, 2, nil, nil, false)
+end
+
 function handleHeightInput(coord)
   if blockinput then return coord end
   delta = 0.05
@@ -153,4 +157,30 @@ function handleNumberInput(num)
   else
     return num
   end
+end
+
+function handleScrollWheel(coordCount, heading)
+  if blockinput then return coordCount, heading end
+  delta = 10
+  DisableControlAction(0, 36, true)
+  if IsDisabledControlPressed(0, 36) then -- ctrl held down
+    delta = 2
+  end
+
+  BlockWeaponWheelThisFrame()
+  DisableControlAction(0, 81, true)
+  if IsDisabledControlJustPressed(0, 81) then -- scroll down
+    if IsControlPressed(0, 21) then -- shift held down
+      return coordCount, heading - delta
+    end
+    coordCount = math.max(coordCount - 1, 1), heading
+  end
+  DisableControlAction(0, 99, true)
+  if IsDisabledControlJustPressed(0, 99) then -- scroll up
+    if IsControlPressed(0, 21) then -- shift held down
+      return coordCount, heading + delta
+    end
+    coordCount = coordCount + 1, heading
+  end
+  return coordCount, heading
 end

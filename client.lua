@@ -3,6 +3,7 @@ local edgePointRadius = 0.1
 local coordRadius = 0.08
 local coordCount = 1
 local startPoint, endPoint
+local heading = 0.1
 local pointMoveSelection = 1
 
 local creationEnabled = false
@@ -26,7 +27,8 @@ RegisterCommand("coordline", function(src, args)
       local coord = coordDelta * i + startPoint - halfDelta
       coords[#coords + 1] = coord
     end
-    TriggerServerEvent("coord-line:save", {startPoint=startPoint, endPoint=endPoint, coords=coords, name=name})
+    local finalHeading = math.floor(heading) % 360
+    TriggerServerEvent("coord-line:save", {startPoint=startPoint, endPoint=endPoint, coords=coords, heading=finalHeading, name=name})
     creationEnabled = false
   elseif command == "last" then
     creationEnabled = true
@@ -42,7 +44,7 @@ end)
 function startCreation(last)
   if not creationEnabled then return end
   if not last then
-    coordCount, startPoint, endPoint = 1, nil, nil
+    coordCount, heading, startPoint, endPoint = 1, 0.1, nil, nil
   end
   pointMoveSelection = 1
   Citizen.CreateThread(function()
@@ -62,23 +64,17 @@ function handleCoords()
   local endToStart = endPoint - startPoint
   local coordDelta = endToStart / coordCount
   local halfDelta = coordDelta / 2
+  local up = vector3(0.0, 0.0, 0.25)
   for i=1, coordCount do
     local coord = coordDelta * i + startPoint - halfDelta
     DrawSphere(coord, coordRadius, 255, 0, 255, 255)
+    DrawArrow(coord + up, coordRadius * 2.5, heading, 156, 0, 255, 255)
   end
   drawPoints()
   DrawLine(startPoint, endPoint, 0, 127, 255, 255)
 
   -- Check scroll wheel for input to change coordCount
-  BlockWeaponWheelThisFrame()
-  DisableControlAction(0, 81, true)
-  if IsDisabledControlJustPressed(0, 81) then -- scroll down
-    coordCount = math.max(coordCount - 1, 1)
-  end
-  DisableControlAction(0, 99, true)
-  if IsDisabledControlJustPressed(0, 99) then -- scroll up
-    coordCount = coordCount + 1
-  end
+  coordCount, heading = handleScrollWheel(coordCount, heading)
 
   -- Find closest point the player is looking at between startPoint and endPoint
   -- and handle arrow input for moving that point
