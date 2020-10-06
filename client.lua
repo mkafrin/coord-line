@@ -68,7 +68,7 @@ function handleCoords()
   for i=1, coordCount do
     local coord = coordDelta * i + startPoint - halfDelta
     DrawSphere(coord, coordRadius, 255, 0, 255, 255)
-    DrawArrow(coord + up, coordRadius * 2.5, heading, 156, 0, 255, 255)
+    DrawArrow(coord + up, coordRadius * 3.0, heading, 156, 0, 255, 255)
   end
   drawPoints()
   DrawLine(startPoint, endPoint, 0, 127, 255, 255)
