@@ -2,7 +2,7 @@ local maxDistance = 50.0
 local edgePointRadius = 0.1
 local coordRadius = 0.08
 local coordCount = 1
-local startPoint, endPoint
+local startPoint, endPoint, anchorPoint
 local heading = 0.1
 local pointMoveSelection = 1
 
@@ -95,16 +95,28 @@ function handlePoints()
   if hit then
     drawPoints(pos)
     if startPoint and not endPoint then
-      DrawLine(startPoint, pos, 0, 127, 255, 255)
+      if anchorPoint then
+        DrawLine(startPoint, (anchorPoint + pos) / 2, 0, 127, 255, 255)
+      else
+        DrawLine(startPoint, pos, 0, 127, 255, 255)
+      end
     end
-    if IsControlJustPressed(0, 51) then
+    if anchorPoint then
+      DrawLine(anchorPoint, pos, 255, 0, 255, 255)
+      DrawSphere(anchorPoint, edgePointRadius, 255, 0, 255, 255)
+    end
+    if (not startPoint or not endPoint) and IsControlJustPressed(0, 51) then
+      anchorPoint = pos
+    end
+    if IsControlJustReleased(0, 51) then
       if not startPoint then
-        startPoint = pos
+        startPoint = (anchorPoint + pos) / 2
         print("Set startPoint:", startPoint)
       elseif not endPoint then
-        endPoint = pos
+        endPoint = (anchorPoint + pos) / 2
         print("Set endPoint:", startPoint)
       end
+      anchorPoint = nil
     end
   end
   if startPoint and endPoint then
