@@ -1,18 +1,17 @@
 blockinput = false
 local pi, sin, cos, abs, rad = math.pi, math.sin, math.cos, math.abs, math.rad
 local function RotationToDirection(rotation)
-  local adjustedRotation =
-  {
-    x = (pi / 180) * rotation.x,
-    y = (pi / 180) * rotation.y,
-    z = (pi / 180) * rotation.z
-  }
-  local direction =
-  {
-    x = -sin(adjustedRotation.z) * abs(cos(adjustedRotation.x)),
-    y = cos(adjustedRotation.z) * abs(cos(adjustedRotation.x)),
-    z = sin(adjustedRotation.x)
-  }
+  local piDivBy180 = pi / 180
+  local adjustedRotation = vector3(
+    piDivBy180 * rotation.x,
+    piDivBy180 * rotation.y,
+    piDivBy180 * rotation.z
+  )
+  local direction = vector3(
+    -sin(adjustedRotation.z) * abs(cos(adjustedRotation.x)),
+    cos(adjustedRotation.z) * abs(cos(adjustedRotation.x)),
+    sin(adjustedRotation.x)
+  )
   return direction
 end
 
@@ -28,19 +27,18 @@ local function rotate(origin, point, theta)
   local y = pX * sinTheta + pY * cosTheta
   return vector3(x, y, 0.0) + origin
 end
- 
+
 function RayCastGamePlayCamera(distance)
   local cameraRotation = GetGameplayCamRot()
   local cameraCoord = GetGameplayCamCoord()
   --local right, direction, up, pos = GetCamMatrix(GetRenderingCam())
   --local cameraCoord = pos
   local direction = RotationToDirection(cameraRotation)
-  local destination =
-  {
-    x = cameraCoord.x + direction.x * distance,
-    y = cameraCoord.y + direction.y * distance,
-    z = cameraCoord.z + direction.z * distance
-  }
+  local destination = vector3(
+    cameraCoord.x + direction.x * distance,
+    cameraCoord.y + direction.y * distance,
+    cameraCoord.z + direction.z * distance
+  )
   local ray = StartShapeTestRay(cameraCoord.x, cameraCoord.y, cameraCoord.z,
   destination.x, destination.y, destination.z, 1, -1, 0)
   local rayHandle, hit, endCoords, surfaceNormal, entityHit = GetShapeTestResult(ray)
