@@ -12,7 +12,7 @@ This tool is very simple to use. First download this repository and unzip it int
 - /coordline last
   - If you have saved a coord-line, this will start a new one with the same properties of the one you last saved
 
-When you start a new coord-line, you will see a green sphere where you are looking in game. This represents your "startPoint". You can press E to set it. The green sphere will now stay in place and a red sphere will appear, representing the "endPoint", and a blue line will connect the two. This line is the "coord-line" or line upon which the coordinates will be placed. You can press E again to set your endPoint.
+When you start a new coord-line, you will see a green sphere where you are looking in game. This represents your "startPoint". You can either press E to set it or press and hold E to set an "anchor point" and then release E elsewhere, and the "startPoint" will be set exactly in the middle of the "anchor point" and where you released E. The green sphere will now stay in place and a red sphere will appear, representing the "endPoint", and a blue line will connect the two. This line is the "coord-line" or line upon which the coordinates will be placed. You can set your "endPoint" in the same way as the "startPoint".
 
 Now a purple sphere will appear in the center of the line. This is a coordinate, as the default number of coordinates on a coord-line is 1. To change this number, just use your scroll wheel.
 
