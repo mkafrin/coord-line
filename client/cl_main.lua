@@ -5,11 +5,13 @@ local coordCount = 1
 local startPoint, endPoint, anchorPoint
 local heading = 0.1
 local pointMoveSelection = 1
+local formats = nil
 
 local creationEnabled = false
 RegisterCommand("coordline", function(src, args)
   local command = args[1]
   if command == "start" then
+    TriggerServerEvent("coord-line:getFormats")
     creationEnabled = true
     startCreation()
   elseif command == "end" then
@@ -18,6 +20,8 @@ RegisterCommand("coordline", function(src, args)
     if not startPoint or not endPoint then return end
     local name = GetUserInput("Enter name of coord-line:", "", 30)
     if name == nil then return end
+    local format = GetUserInput("Enter format (" .. formats .. "):", "", 30)
+    if format == nil then return end
     -- Space between each marker
     local endToStart = endPoint - startPoint
     local coordDelta = endToStart / coordCount
@@ -28,7 +32,7 @@ RegisterCommand("coordline", function(src, args)
       coords[#coords + 1] = coord
     end
     local finalHeading = math.floor(heading) % 360
-    TriggerServerEvent("coord-line:save", {startPoint=startPoint, endPoint=endPoint, coords=coords, heading=finalHeading, name=name})
+    TriggerServerEvent("coord-line:save", {startPoint=startPoint, endPoint=endPoint, coords=coords, heading=finalHeading, name=name, format=format})
     creationEnabled = false
   elseif command == "last" then
     creationEnabled = true
@@ -39,6 +43,12 @@ Citizen.CreateThread(function()
   TriggerEvent('chat:addSuggestion', '/coordline', '', {
     {name="command", help="{start, end, last, save} (required)"},
   })
+end)
+
+RegisterNetEvent("coord-line:formats")
+AddEventHandler("coord-line:formats", function (_formats)
+  formats = _formats
+  print(formats)
 end)
 
 function startCreation(last)

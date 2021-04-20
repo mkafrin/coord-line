@@ -6,10 +6,9 @@ description 'A development tool for FiveM and RedM that enables you to very easi
 version '1.0.0'
 
 client_scripts {
-  'utils.lua',
-  'client.lua',
+  'client/cl_*.lua'
 }
 
 server_scripts {
-  'server.lua',
+  'server/sv_*.lua'
 }
