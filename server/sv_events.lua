@@ -1,9 +1,15 @@
 RegisterNetEvent("coord-line:save")
 AddEventHandler("coord-line:save", function(coordline)
   local resname = GetCurrentResourceName()
-  local txt = LoadResourceFile(resname, "coordlines.txt") or ""
-  local newTxt = txt .. formatCoordline(coordline)
-  SaveResourceFile(resname, "coordlines.txt", newTxt, -1)
+  local format = GetFormat(coordline.name)
+  local path = format.getFilePath(coordline)
+  local txt = ""
+  if format.shouldAppend then
+    local oldTxt = LoadResourceFile(resname, path)
+    if oldTxt then txt = oldTxt end
+  end
+  local newTxt = txt .. formatCoordline(coordline, format)
+  SaveResourceFile(resname, path, newTxt, -1)
 end)
 
 RegisterNetEvent("coord-line:getFormats")

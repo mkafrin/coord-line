@@ -1,6 +1,6 @@
 local formatters = {}
 
-local function printoutHeader(name)
+function printoutHeader(name)
   return "-- Name: " .. (name or "") .. " | " .. os.date("!%Y-%m-%dT%H:%M:%SZ")
 end
 
@@ -12,14 +12,24 @@ function roundVec(vec, numDecimalPlaces)
   return vector3(round(vec.x, numDecimalPlaces), round(vec.y, numDecimalPlaces), round(vec.z, numDecimalPlaces))
 end
 
-function AddFormat(name, onBeforeVectors, onVectors, onAfterVectors)
+function AddFormat(name, getFilePath, shouldAppend, onBeforeVectors, onVectors, onAfterVectors)
   local format = {
     name = name,
+    getFilePath = getFilePath,
+    shouldAppend = shouldAppend,
     onBeforeVectors = onBeforeVectors,
     onVectors = onVectors,
     onAfterVectors = onAfterVectors,
   }
   formatters[name] = format
+end
+
+function GetFormat(name)
+  if name == nil or name == "" or formatters[name] == nil then
+    print("Warning: Format was either nil or not found. Falling back to default.")
+    name = "default"
+  end
+  return formatters[name]
 end
 
 function GetFormats()
@@ -28,16 +38,9 @@ function GetFormats()
   return formats
 end
 
-function formatCoordline(coordline)
-  local formatName = coordline.format
-  if formatName == nil or formatName == "" then
-    print("Warning: Format was either nil or not found. Falling back to default.")
-    formatName = "default"
-  end
-  local format = formatters[formatName]
-  local headerText = printoutHeader(coordline.name)
+function formatCoordline(coordline, format)
   local beforeText = format.onBeforeVectors(coordline)
   local vectorsText = format.onVectors(coordline)
   local afterText = format.onAfterVectors(coordline)
-  return ("%s\n%s%s%s\n"):format(headerText, beforeText, vectorsText, afterText)
+  return ("%s%s%s\n"):format(beforeText, vectorsText, afterText)
 end
