@@ -1,7 +1,7 @@
 RegisterNetEvent("coord-line:save")
 AddEventHandler("coord-line:save", function(coordline)
   local resname = GetCurrentResourceName()
-  local format = GetFormat(coordline.name)
+  local format = GetFormat(coordline.format)
   local path = format.getFilePath(coordline)
   local txt = ""
   if format.shouldAppend then
