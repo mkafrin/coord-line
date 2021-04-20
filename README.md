@@ -20,4 +20,4 @@ If you need to move your startPoint or endPoint, you can do that using the arrow
 
 The heading of the coord-line will be represented by an arrow over each coord. To change the heading, use shift + scroll wheel. You can also use ctrl here to slow the rotation down.
 
-And that's it! Once you are satisfied with your coordline, just use `/coordline save`, fill in a name, choose an output format, and check out the `coordlines.txt` file in the coord-line folder.
+And that's it! Once you are satisfied with your coordline, just use `/coordline save`, fill in a name, choose an output format, and check out the `coordlines` folder in the coord-line resource folder.
